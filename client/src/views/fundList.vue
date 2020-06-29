@@ -131,7 +131,7 @@
           .get('/api/fund')
           .then( res =>{                          
             
-            // console.log(res.data)
+            console.log(res.data)
             this.fundData = res.data
             this.totalCount = this.fundData.length
             // console.log(this.fundData)    

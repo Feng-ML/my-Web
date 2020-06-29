@@ -77,7 +77,7 @@ export default {
                 email: '',
                 username: '',
                 pass: '',
-                checkPass: ''
+                checkPass: '',
             },
 
             // 填写规则

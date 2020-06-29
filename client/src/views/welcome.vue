@@ -1,12 +1,30 @@
 <template>
-  <div class="welcome">
-    <p class="big">welcome!</p>
+  <div id="welcome">
+    
+    <h1>welcome!</h1>
+
   </div>
 </template>
 
-<style lang="less">
-  .big{
-    margin-top: 200px;
-    font-size: 50px;
+<script type="text/javascript"> 
+export default {
+  data(){
+    return {
+      
+    }    
+  },
+  methods: {
+    
   }
+}
+</script>
+
+<style lang="less">
+  #welcome{
+    h1{
+      margin-top: 150px;
+      font-size: 80px;
+    }
+  }
+
 </style>

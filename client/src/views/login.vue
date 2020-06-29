@@ -92,6 +92,7 @@ export default {
                             // console.log(res)
                             localStorage.setItem("username", res.data.name)
                             localStorage.setItem("useremail", res.data.email)
+                            localStorage.setItem("userAvatar", res.data.avatar)
                             
                             this.$router.push('/') 
                             location.reload()

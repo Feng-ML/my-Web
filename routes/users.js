@@ -24,9 +24,10 @@ router.get('/', (req, res) => {
                 const newUser = new User({
                     email: req.body.email,
                     name: req.body.username,
-                    password: req.body.pass
+                    password: req.body.pass,
+                    avatar: ''
                 })
-
+                
 
                 //保存用户数据
                 newUser.save()
@@ -63,6 +64,27 @@ router.post('/login', (req, res) => {
                 // console.log('该邮箱不存在，请重新输入')
                 return res.status(400).json('用户不存在！')
             }
+        })
+
+})
+
+
+
+// 更改头像
+router.post('/avatar', (req, res) => {
+
+    // console.log(req.body)
+
+    User.findOneAndUpdate(
+            {email: req.body.email},
+            {$set:{avatar: req.body.avatar}}
+        )
+        .then(data => {
+            // console.log(data)
+            return res.json(data)
+        })
+        .catch(err => {
+            res.json(err)
         })
 
 })

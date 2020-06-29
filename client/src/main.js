@@ -10,7 +10,7 @@ import axios from './http.js'
 
 
 import $ from 'jquery'
-Vue.prototype.$ = $
+Vue.prototype.$ = $  
 
 Vue.use(ElementUI);
 
@@ -92,3 +92,4 @@ var menuLi3 = appMenu.getElementsByTagName("li")[2];
 menuLi3.onclick = ()=>{
   location.reload()
 }
+

@@ -7,9 +7,9 @@
     <div id="appMenu">
       <ul>
         <li><router-link exact to="/">首页</router-link></li>
-        <li><a href="http://www.baidu.com">百度</a></li>
+        <li><a href="https://github.com/Feng-ML/Fund-Management-System" target="_blank">代码</a></li>
         <li><a href="#">刷新</a></li>
-        <li><a href="http://Feng-ML.github.io">博客</a></li>
+        <li><a href="http://Feng-ML.github.io" target="_blank">博客</a></li>
       </ul>
     </div>
 

@@ -11,8 +11,8 @@ const fund = require('./routes/fund')
 
 
 //body-parser   
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ imit: '50mb',extended: false }))
+app.use(bodyParser.json({limit: '50mb'}))
 app.use(express.static('public'))
 
 

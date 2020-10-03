@@ -32,8 +32,7 @@ const fundSchema = new Schema({
     },
     // 余额
     balance:{
-        type: Number,     
-        required: true   
+        type: Number 
     },
     // 操作人员
     person:{

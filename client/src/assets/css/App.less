@@ -17,17 +17,19 @@
   }
 }
 
+// 导航栏
 #nav {
   position: relative;
   width: 100%;
   background-color: rgb(32, 32, 32);
+  // 路由
   ul{
-    width: 500px;
-    position: relative;
-    left: 100px;
     list-style: none;
+    width: 600px;
+    padding-left: 100px;
     li{
       display: inline-block;
+
       a{
         display: block;
         width: 100px;
@@ -39,10 +41,10 @@
     }
   }
 
-  //路由
+  //路由点击
   .router-link-active{
     color: rgb(252, 174, 73);
-    border-bottom: 3px solid rgb(252, 174, 73) ; 
+    border-bottom: 3px solid rgb(252, 174, 73); 
   }
 
   //搜索框
@@ -88,18 +90,6 @@
     background: linear-gradient(90deg, rgb(196, 202, 218) 0%, #fff 20%, #fff 80%, rgb(196, 202, 218) 100%);
   }
 }
-
-//BGM
-#video{
-  position: fixed;
-  left: 0;
-  top: 100px;
-  height: 30px;
-  width: 100px;
-}
-
-
-//内容
 
 
 //点击特效

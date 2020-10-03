@@ -25,6 +25,7 @@
     <el-table
       :data="fundData.slice((currentPage-1)*PageSize,currentPage*PageSize)"
       border
+      :default-sort="{prop: 'date', order: 'descending'}"
     >
       <el-table-column
         label="序号"
@@ -34,6 +35,7 @@
       </el-table-column>
 
       <el-table-column
+        prop="date"
         label="日期"
         sortable
         width='120'
@@ -60,6 +62,7 @@
       <el-table-column
         prop="income"
         label="收入"
+        sortable
       >
         <template slot-scope="scope">
           <span class="income">+{{ scope.row.income }}</span>
@@ -69,6 +72,7 @@
       <el-table-column
         prop="spending"
         label="支出"
+        sortable
       >
         <template slot-scope="scope">
           <span class="spending">-{{ scope.row.spending }}</span>
@@ -76,14 +80,9 @@
       </el-table-column>
 
       <el-table-column
-        prop="balance"
-        label="余额"
-      >
-      </el-table-column>
-
-      <el-table-column
         prop="person"
         label="操作员"
+        width='80'
       >
       </el-table-column>
 
@@ -131,10 +130,22 @@
           .get('/api/fund')
           .then( res =>{                          
             
-            console.log(res.data)
+            // 筛选资金余额
+            res.data.forEach((e,index,arr)=>{
+              if (e.type=='资金余额') {
+                // 保存数据与缓存
+                this.balance = e.balance    
+                localStorage.setItem('balance',e.balance)  
+                arr.splice(index,1)          
+              } 
+            })
+
             this.fundData = res.data
+
+            localStorage.setItem('fundData',JSON.stringify(res.data))  
+
+            // 总条数
             this.totalCount = this.fundData.length
-            // console.log(this.fundData)    
           })                       
           .catch( err =>{
               console.log(err)
@@ -152,14 +163,13 @@
           this.dialog.title = '修改资金信息',
           this.dialog.option = 'edit'
           this.dialog.show = true
-          // console.log( data )
           this.formData = {
             date: data.date,
             type: data.type,
             details: data.details,
             income: data.income,
             spending: data.spending,
-            balance: data.balance,
+            balance: this.balance,
             person,
             id: data._id
           }
@@ -168,7 +178,6 @@
 
       // 删除数据
       onDeleteMoney( data ){
-        // console.log(data)
         if (!person) {
           this.$message({
             message: '请登录后操作！！',
@@ -176,7 +185,12 @@
           })
         } else { 
           this.$axios
-              .delete( `/api/fund/delete/${data._id}` )
+              .post( '/api/fund/delete' ,
+                {
+                  id: data._id,
+                  balance: this.balance
+                }
+              )
               .then(res =>{
                 this.$message({
                     message: '删除成功！！',
@@ -206,7 +220,7 @@
                 details: '',
                 income: '',
                 spending: '',
-                balance: '',
+                balance: this.balance,
                 person
               }
               this.dialog.option = 'add'
@@ -215,11 +229,8 @@
 
       // 时间筛选
       screening(){
-        if(this.dateScope.length == 0){
-          this.$message({
-            message: '请选择时间范围',
-            type: 'warning' 
-          })
+        if(this.dateScope == null || this.dateScope.length == 0){
+          this.getFund()
         }else {
           const stime = this.dateScope[0]
           const etime = this.dateScope[1]
@@ -249,6 +260,7 @@
     data() {
       return {
         fundData: [],
+        balance: 0,
 
         dialog: {
           title: '',
@@ -283,8 +295,8 @@
       dialogfund
     },
 
-    created:function(){
-      this.getFund() 
+    created(){
+      this.getFund()
     }
   }
 </script>

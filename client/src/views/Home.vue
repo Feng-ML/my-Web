@@ -8,6 +8,8 @@
         <li><router-link to="/home/fundList"><i class="el-icon-s-management"></i> 资金管理</router-link></li>
         <li><router-link to="/home/about"><i class="el-icon-user-solid"></i> 关于</router-link></li>
         <li><router-link to="/home/liuyan"><i class="el-icon-s-promotion"></i> 留言版</router-link></li>
+        <li><router-link to="/home/animation"><i class="el-icon-s-opportunity"></i> 小动画</router-link></li>
+        <li><router-link to="/home/charts"><i class="el-icon-data-line"></i> 图表</router-link></li>
       </ul>
     
       <!-- 登录 -->
@@ -30,16 +32,15 @@
         <a href="https://github.com/Feng-ML/Fund-Management-System" target="_blank"></a>
       </div>
     
+      <!-- 更改头像 -->
       <input @change="uploadPhoto($event)" type="file" id="avatar-upload">
 
     </div>
 
-
-
+    <!-- 顶部图片 -->
     <div id="top"><div></div></div>
 
-
-
+    <!-- 页面内容 -->
     <div id="content">
       <router-view/>
     </div>
@@ -83,6 +84,8 @@
       
     },
     mounted(){
+
+      // 头像显示
       if (localStorage.getItem("username")) {
         if ( localStorage.getItem("userAvatar") ) {
           $('#avatar img')[0].setAttribute( 'src', this.userInfo.avatar)            

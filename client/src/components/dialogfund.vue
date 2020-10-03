@@ -37,7 +37,7 @@
                 <el-input v-model="formData.spending" autocomplete="off" type='number'></el-input>
             </el-form-item>
             <el-form-item label="余额" :label-width="formLabelWidth" prop='balance'>
-                <el-input v-model="formData.balance" autocomplete="off" type='number'></el-input>
+                <span>{{formData.balance}}</span>
             </el-form-item>
         </el-form>
 
@@ -52,8 +52,6 @@
 
 <script type="text/javascript">
     import moment from 'moment'
-
-    var person = localStorage.getItem('username')
 
     export default {
         name: 'dialogfund',
@@ -80,9 +78,6 @@
                     ],
                     spending: [
                         { required: true, message: '请输入支出金额', trigger: 'blur' }
-                    ],
-                    balance: [
-                        { required: true, message: '请输入余额', trigger: 'blur' }
                     ]
                 },
                 formLabelWidth: '120px'
@@ -93,6 +88,15 @@
             onsubmit (formName){
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
+                                               
+                        // 余额不足跳出错误
+                        if(this.formData.spending - this.formData.income > this.formData.balance){
+                            return this.$message({
+                                    message: '资金不足！！',
+                                    type: 'error' 
+                                })
+                        }
+
                         // 设置存入时间格式
                         this.formData.date = moment(this.formData.date).format('YYYY-MM-DD')
 

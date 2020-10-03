@@ -143,9 +143,7 @@
             this.fundData = res.data
 
             localStorage.setItem('fundData',JSON.stringify(res.data))  
-
-            // 总条数
-            this.totalCount = this.fundData.length
+           
           })                       
           .catch( err =>{
               console.log(err)
@@ -296,7 +294,17 @@
     },
 
     created(){
-      this.getFund()
+      // 无缓存时获取数据
+      if(!localStorage.getItem('fundData')){
+          this.getFund()
+      }else{
+        // 有缓存
+        let fundData = localStorage.getItem('fundData');
+        this.fundData = JSON.parse(fundData)
+      }
+
+      // 总条数
+      this.totalCount = this.fundData.length
     }
   }
 </script>

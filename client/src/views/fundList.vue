@@ -122,6 +122,60 @@
   var person = localStorage.getItem('username')
 
   export default {
+    
+
+    data() {
+      return {
+        fundData: [],
+        balance: 0,
+
+        dialog: {
+          title: '',
+          show: false,
+          option: ''
+        },
+        //时间范围
+        dateScope: [],
+
+        formData: {
+          date: '',
+          type: '',
+          details: '',
+          income: '',
+          spending: '',
+          balance: '',
+          person
+        },
+
+        // 默认显示第几页
+        currentPage:1,
+        // 总条数，根据接口获取数据长度(注意：这里不能为空)
+        totalCount: 1,
+        // 个数选择器（可修改）
+        pageSizes:[5,10,15],
+        // 默认每页显示的条数（可修改）
+        PageSize:5,
+      }
+    },
+
+    components:{
+      dialogfund
+    },
+
+    created(){
+      // 无缓存时获取数据
+      if(!localStorage.getItem('fundData')){
+          this.getFund()
+      }else{
+        // 有缓存
+        let fundData = localStorage.getItem('fundData');
+        this.fundData = JSON.parse(fundData)
+      }
+
+      // 总条数
+      this.totalCount = this.fundData.length
+    },
+
     methods: {
 
       // 获取数据
@@ -254,58 +308,6 @@
       },
 
     },
-
-    data() {
-      return {
-        fundData: [],
-        balance: 0,
-
-        dialog: {
-          title: '',
-          show: false,
-          option: ''
-        },
-        //时间范围
-        dateScope: [],
-
-        formData: {
-          date: '',
-          type: '',
-          details: '',
-          income: '',
-          spending: '',
-          balance: '',
-          person
-        },
-
-        // 默认显示第几页
-        currentPage:1,
-        // 总条数，根据接口获取数据长度(注意：这里不能为空)
-        totalCount: 1,
-        // 个数选择器（可修改）
-        pageSizes:[5,10,15],
-        // 默认每页显示的条数（可修改）
-        PageSize:5,
-      }
-    },
-
-    components:{
-      dialogfund
-    },
-
-    created(){
-      // 无缓存时获取数据
-      if(!localStorage.getItem('fundData')){
-          this.getFund()
-      }else{
-        // 有缓存
-        let fundData = localStorage.getItem('fundData');
-        this.fundData = JSON.parse(fundData)
-      }
-
-      // 总条数
-      this.totalCount = this.fundData.length
-    }
   }
 </script>
 

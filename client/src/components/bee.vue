@@ -10,7 +10,6 @@
 </template>
 
 <script>
-import $ from 'jQuery'
 
 export default {
     name: 'bee',

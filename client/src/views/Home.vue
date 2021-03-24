@@ -3,14 +3,45 @@
     <div id="nav">
 
       <!-- 路由 -->
-      <ul>
-        <li><router-link exact to="/home"><i class="el-icon-s-home"></i> 首页</router-link></li>
-        <li><router-link to="/home/fundList"><i class="el-icon-s-management"></i> 资金管理</router-link></li>
-        <li><router-link to="/home/about"><i class="el-icon-user-solid"></i> 关于</router-link></li>
-        <li><router-link to="/home/liuyan"><i class="el-icon-s-promotion"></i> 留言版</router-link></li>
-        <li><router-link to="/home/animation"><i class="el-icon-s-opportunity"></i> 小动画</router-link></li>
-        <li><router-link to="/home/charts"><i class="el-icon-data-line"></i> 图表</router-link></li>
-      </ul>
+      <el-menu
+        :default-active="activeIndex"
+        class="el-menu-demo"
+        mode="horizontal"
+        background-color="#202020"
+        text-color="#fff"
+        active-text-color="#ffd04b">
+
+        <!-- 循环菜单 -->
+        <slot 
+          v-for="(item,index) in menu"
+        >
+          <!-- 有子菜单 -->
+          <slot v-if="item.children">
+            <el-submenu :index="index+''">
+              <template slot="title">{{item.name}}</template>
+              <!-- 循环子菜单 -->
+              <el-menu-item 
+                v-for="(item2,index2) in item.children"
+                :key="index2"
+                :index="index+'-'+index2"
+                @click="toPath(item2.path,index+'-'+index2)"
+              > 
+                  {{item2.name}}
+              </el-menu-item>
+            </el-submenu>
+          </slot>
+
+          <!-- 无子菜单 -->
+          <slot v-else>
+            <el-menu-item :index="index+''" @click="toPath(item.path,index)">
+              {{item.name}}
+            </el-menu-item>
+          </slot>
+
+        </slot>
+
+
+      </el-menu>
     
       <!-- 登录 -->
       <div class="login" @click="toLogin()">
@@ -38,7 +69,7 @@
     </div>
 
     <!-- 顶部图片 -->
-    <div id="top"><div></div></div>
+    <!-- <div id="top"><div></div></div> -->
 
     <!-- 页面内容 -->
     <div id="content">
@@ -49,7 +80,6 @@
 </template>
 
 <script type="text/javascript">
-  import Vue from 'vue'
   import $ from 'jquery'
 
   export default {
@@ -63,18 +93,64 @@
           avatar: '',
           username: '',
           email: ''
-        }
+        },
+        menu:[
+          {
+            name: '首页',
+            path: '/home',
+            icon: 'el-icon-s-home'
+          },
+          {
+            name: '资金管理',
+            path: '/home/fundList',
+            icon: 'el-icon-s-management'
+          },
+          {
+            name: '关于',
+            path: '/home/about',
+            icon: 'el-icon-user-solid'
+          },
+          {
+            name: '留言版',
+            path: '/home/liuyan',
+            icon: 'el-icon-s-promotion'
+          },
+          {
+            name: '小动画',
+            path: '/home/animation',
+            icon: 'el-icon-s-opportunity'
+          },
+          {
+            name: '图表',
+            path: '',
+            icon: 'el-icon-data-line',
+            children:[
+              {
+                name: '资金用途',
+                path: '/home/charts/fundUse',
+                // icon: 'el-icon-s-opportunity'
+              },
+              {
+                name: '资金流水',
+                path: '/home/charts/fundFlow',
+                // icon: 'el-icon-s-opportunity'
+              }
+            ]
+          }
+        ],
+        activeIndex: '0'
       }
     },
     created(){
-      
+      if(localStorage.getItem("activeIndex"))this.activeIndex = localStorage.getItem("activeIndex")
 
-      if(localStorage.getItem("username")){
+      let name = localStorage.getItem("username")
+      if(name){
 
-        this.userInfo.username = localStorage.getItem("username")
+        this.userInfo.username = name
         this.userInfo.email = localStorage.getItem("useremail")
         this.userInfo.avatar = localStorage.getItem("userAvatar")
-        this.Uname = localStorage.getItem("username")
+        this.Uname = name
 
       }else{
 
@@ -102,11 +178,9 @@
       },
       //详细信息
       toAbout(){
-        if (this.$route.path == '/home/about') {
-          
-        }else{
-          this.$router.push('/home/about')
-        }
+
+        if(this.$route.path!='/home/about') this.$router.push('/home/about')
+
       },
       // 退出登录
       outLogin() {
@@ -119,6 +193,11 @@
       // 更换头像
       avatarChange(){
         document.getElementById('avatar-upload').click()
+      },
+      // 导航路由跳转
+      toPath(path,index){
+        if(this.$route.path!=path)this.$router.push(path)
+        localStorage.setItem('activeIndex',index)
       },
 
       uploadPhoto (e) {
@@ -171,8 +250,66 @@
 <style lang="less">
   #Home{
     background: linear-gradient(90deg, rgb(196, 202, 218) 0%, #fff 20%, #fff 80%, rgb(196, 202, 218) 100%);
-    .login{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    // 导航栏
+    #nav {
       position: relative;
+      width: 100%;
+      // background-color: rgb(32, 32, 32);
+      // 路由
+      // ul{
+      //   list-style: none;
+      //   width: 600px;
+      //   padding-left: 100px;
+      //   li{
+      //     display: inline-block;
+
+      //     a{
+      //       display: block;
+      //       width: 100px;
+      //       height: 100%;
+      //       line-height: 60px;
+      //       text-decoration: none;
+      //       color: #fff;
+      //     }
+      //   }
+      // }
+
+      //路由点击
+      // .router-link-active{
+      //   color: rgb(252, 174, 73);
+      //   border-bottom: 3px solid rgb(252, 174, 73); 
+      // }
+      .el-menu-demo{
+        padding: 0 130px;
+      }
+
+      //搜索框
+      .demo-input-suffix{
+        // display: inline-block;
+        position: absolute;
+        right: 150px;
+        top: 15px;
+        width: 200px;
+        .el-input__inner{
+          height: 30px;
+        }
+        .el-input__suffix{
+          top: -5px;
+        }
+      }
+
+    }
+    .login{
+      position: absolute;
+      right: 10px;
+      top: 15px;
+      width: 100px;
+      color: white;
+      
       .el-dropdown-link {
           cursor: pointer;
           color: #409EFF;
@@ -207,6 +344,10 @@
     }
     #avatar-upload{
       display: none;
+    }
+
+    #content{
+      flex-grow: 1;
     }
   }
   .el-icon-arrow-down {

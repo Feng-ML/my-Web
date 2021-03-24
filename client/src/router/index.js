@@ -1,18 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Home from '../views/Home.vue'
-import About from '../views/About.vue'
-import Liuyan from '../views/Liuyan.vue'
-import fundList from '../views/fundList.vue'
-import login from '../views/login.vue'
-import register from '../views/register.vue'
-import welcome from '../views/welcome.vue'
-import animation from '../views/animation.vue'
-
-import charts from '../views/charts.vue'
-import fundUse from '../views/charts/fundUse.vue'
-import fundFlow from '../views/charts/fundFlow.vue'
+import home from "../views/Home.vue";
 
 Vue.use(VueRouter)
 
@@ -28,37 +17,38 @@ const routes = [
   {
     path: '/home',
     name: 'home',
-    component: Home,
+    // component: ()=> import('../views/Home.vue'),
+    component: home,
     children: [
       {
         path: '/',
         name: 'welcome',
-        component: welcome
+        component: ()=> import('../views/welcome.vue')
       },
       {
         path: 'about',
         name: 'about',
-        component: About
+        component: ()=> import('../views/About.vue')
       },
       {
         path: 'Liuyan',
         name: 'liuyan',
-        component: Liuyan,
+        component: ()=> import('../views/Liuyan.vue'),
       },
       {
         path: 'fundList',
         name: 'fundList',
-        component: fundList,
+        component: ()=> import('../views/fundList.vue'),
       },
       {
         path: 'animation',
         name: 'animation',
-        component: animation,
+        component: ()=> import('../views/animation.vue'),
       },
       {
         path: 'charts',
         name: 'charts',
-        component: charts,
+        component: ()=> import('../views/charts/charts.vue'),
         children: [
           {
             path: '/',
@@ -67,12 +57,12 @@ const routes = [
           {
             path: '/home/charts/fundUse',
             name: 'fundUse',
-            component: fundUse
+            component: ()=> import('../views/charts/fundUse.vue')
           },
           {
             path: '/home/charts/fundFlow',
             name: 'fundFlow',
-            component: fundFlow
+            component: ()=> import('../views/charts/fundFlow.vue')
           }
         ]
       }
@@ -81,12 +71,12 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: login,
+    component: ()=> import('../views/login.vue'),
   },
   {
     path: '/register',
     name: 'register',
-    component: register,
+    component: ()=> import('../views/register.vue'),
   }
 ]
 

@@ -130,9 +130,10 @@ export default {
 
 
 #login{
-    height: 100%;
+    height: 100vh;
+    width: 100vw;
     background: url('../assets/picture/user1.jpg') no-repeat;
-    background-size:cover;
+    background-size: cover;
 
     //首页按钮
     .el-icon-s-home{
@@ -165,7 +166,7 @@ export default {
         position: absolute;
         left: 0;
         right: 0;
-        top: -40px;
+        top: -60px;
         margin: auto;
         z-index: 99;
     }

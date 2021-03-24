@@ -11,7 +11,7 @@
 
  import dna from '../components/dna';
  import bee from '../components/bee';
- import $ from 'jQuery'
+ import $ from 'jquery'
 
  
 export default {

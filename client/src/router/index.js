@@ -48,7 +48,7 @@ const routes = [
       {
         path: 'charts',
         name: 'charts',
-        component: ()=> import('../views/charts/charts.vue'),
+        component: ()=> import('../views/charts/index.vue'),
         children: [
           {
             path: '/',
@@ -65,6 +65,11 @@ const routes = [
             component: ()=> import('../views/charts/fundFlow.vue')
           }
         ]
+      },
+      {
+        path: 'component',
+        name: 'component',
+        component: ()=> import('../views/component/index.vue'),
       }
     ]
   },

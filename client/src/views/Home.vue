@@ -136,13 +136,18 @@
                 // icon: 'el-icon-s-opportunity'
               }
             ]
+          },
+          {
+            name: '组件',
+            path: '/home/component',
+            icon: ''
           }
         ],
         activeIndex: '0'
       }
     },
     created(){
-      if(localStorage.getItem("activeIndex"))this.activeIndex = localStorage.getItem("activeIndex")
+      if(sessionStorage.getItem("activeIndex"))this.activeIndex = sessionStorage.getItem("activeIndex")
 
       let name = localStorage.getItem("username")
       if(name){
@@ -197,7 +202,7 @@
       // 导航路由跳转
       toPath(path,index){
         if(this.$route.path!=path)this.$router.push(path)
-        localStorage.setItem('activeIndex',index)
+        sessionStorage.setItem('activeIndex',index)
       },
 
       uploadPhoto (e) {
@@ -258,6 +263,7 @@
     #nav {
       position: relative;
       width: 100%;
+      text-align: center;
       // background-color: rgb(32, 32, 32);
       // 路由
       // ul{

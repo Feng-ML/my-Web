@@ -35,7 +35,7 @@ app.onclick = function(event){
   i.className = "zan  iconfont icon-zan";
   this.appendChild(i);
   let x = e.pageX - 10;
-  let y = e.pageY - 20;
+  let y = e.pageY - 30;
   let location = "left:" + x + "px;top:" + y + "px;" ;
 
   setTimeout(()=>{

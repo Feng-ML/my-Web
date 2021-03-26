@@ -38,7 +38,7 @@ axios.interceptors.response.use( response =>{
 
 }, error =>{
 
-    Message.error(error.response.data)
+    if(error.response) Message.error(error.response.data)
     endLoading()
     return Promise.reject(error)
 } )

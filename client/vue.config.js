@@ -37,6 +37,16 @@ module.exports = {
                     '^/api': ''
                 }
             },
+            '/qq': {
+                /* 目标代理服务器地址 */
+                target: 'https://view.inews.qq.com',
+                /* 允许跨域 */
+                changeOrigin: true,
+                ws: true,
+                pathRewrite: {
+                    '^/qq': ''
+                }
+            }
         },
     },
 

@@ -1,9 +1,7 @@
 <template>
     <div>
         <div class="temp">
-            <div class="box">
-                <div class="button">Click me</div>
-            </div>
+            <div class="button" @click="btnClick">Button</div>
         </div>
 
         <div class="code">
@@ -18,6 +16,11 @@
                         <CssMd></CssMd>
                     </div>
                 </el-collapse-item>
+                <el-collapse-item title="JS">
+                    <div class="markdown-body">
+                        <JSMd></JSMd>
+                    </div>
+                </el-collapse-item>
             </el-collapse>
 
         </div>
@@ -25,56 +28,80 @@
 </template>
 
 <script>
-import CssMd from "./css.md";
-import HtmlMd from "./html.md";
+import CssMd from "./css3.md";
+import HtmlMd from "./html3.md";
+import JSMd from "./js3.md";
 
-// var $button = document.querySelector('.button');
-// $button.addEventListener('click', function() {
-//   var duration = 0.3,
-//       delay = 0.08;
-//   TweenMax.to($button, duration, {scaleY: 1.6, ease: Expo.easeOut});
-//   TweenMax.to($button, duration, {scaleX: 1.2, scaleY: 1, ease: Back.easeOut, easeParams: [3], delay: delay});
-//   TweenMax.to($button, duration * 1.25, {scaleX: 1, scaleY: 1, ease: Back.easeOut, easeParams: [6], delay: delay * 3 });
-// });
 
 export default {
     components:{
         CssMd,
-        HtmlMd
+        HtmlMd,
+        JSMd
+    },
+    methods:{
+        btnClick(){
+            var btn = document.querySelector('.button');
+
+            if(btn.className　= 'button'){
+                btn.className　= 'button scale'
+                setTimeout(()=>{
+                    btn.className　= 'button'
+                },500)
+            }
+        }
     }
 }
 </script>
 
 <style lang='less'>
+
+    @keyframes scale {
+        0%{
+            transform: scale(1);
+        }
+        30%{
+            transform: scaleY(1.6);
+        }
+        60%{
+            transform: scale(1.2,1);
+        }
+        100%{
+            transform: scale(1);
+        }
+    }
+    .scale{
+        animation: scale .5s ease-out;
+    }
+
     .button {
-        background: #3498db;
+        background: linear-gradient(135deg, #d3e669, #7ec9b9);
         width: 180px;
-        padding: 4px 0;
+        height: 50px;
+        line-height: 50px;
+        margin: 30px 0;
         
         border-radius: 3px;
         font-family: 'Roboto'; 
         text-align: center;
-        text-transform: uppercase;
         color: #FFF;
         user-select: none;
-
-
         
         &:hover {
             cursor: pointer;
         }
         
-        // &:after {
-        //     content: "";
-        //     display: block;
-        //     position: absolute;
-        //     width: 100%;
-        //     height: 10%;
-        //     border-radius: 50%;
-        //     background-color: darken(#f1c40f, 20%);
-        //     opacity: 0.4;
-        //     bottom: -30px;
-        // }
+        &:after {
+            content: "";
+            display: block;
+            position: relative;
+            width: 100%;
+            height: 10%;
+            border-radius: 50%;
+            background-color: darken(#f1c40f, 20%);
+            opacity: 0.4;
+            bottom: -20px;
+        }
     }
     
 </style>

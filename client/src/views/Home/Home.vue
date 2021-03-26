@@ -81,6 +81,7 @@
 
 <script type="text/javascript">
   import $ from 'jquery'
+  import menu from './menu.js'
 
   export default {
     components:{
@@ -94,55 +95,7 @@
           username: '',
           email: ''
         },
-        menu:[
-          {
-            name: '首页',
-            path: '/home',
-            icon: 'el-icon-s-home'
-          },
-          {
-            name: '资金管理',
-            path: '/home/fundList',
-            icon: 'el-icon-s-management'
-          },
-          {
-            name: '关于',
-            path: '/home/about',
-            icon: 'el-icon-user-solid'
-          },
-          {
-            name: '留言版',
-            path: '/home/liuyan',
-            icon: 'el-icon-s-promotion'
-          },
-          {
-            name: '小动画',
-            path: '/home/animation',
-            icon: 'el-icon-s-opportunity'
-          },
-          {
-            name: '图表',
-            path: '',
-            icon: 'el-icon-data-line',
-            children:[
-              {
-                name: '资金用途',
-                path: '/home/charts/fundUse',
-                // icon: 'el-icon-s-opportunity'
-              },
-              {
-                name: '资金流水',
-                path: '/home/charts/fundFlow',
-                // icon: 'el-icon-s-opportunity'
-              }
-            ]
-          },
-          {
-            name: '组件',
-            path: '/home/component',
-            icon: ''
-          }
-        ],
+        menu:[],
         activeIndex: '0'
       }
     },
@@ -162,6 +115,8 @@
         this.Uname = '登录'
 
       }
+
+      this.menu = menu.menu
       
     },
     mounted(){
@@ -261,52 +216,21 @@
 
     // 导航栏
     #nav {
-      position: relative;
+      position: fixed;
+      top: 0;
+      z-index: 10;
       width: 100%;
       text-align: center;
       // background-color: rgb(32, 32, 32);
-      // 路由
-      // ul{
-      //   list-style: none;
-      //   width: 600px;
-      //   padding-left: 100px;
-      //   li{
-      //     display: inline-block;
 
-      //     a{
-      //       display: block;
-      //       width: 100px;
-      //       height: 100%;
-      //       line-height: 60px;
-      //       text-decoration: none;
-      //       color: #fff;
-      //     }
-      //   }
-      // }
-
-      //路由点击
-      // .router-link-active{
-      //   color: rgb(252, 174, 73);
-      //   border-bottom: 3px solid rgb(252, 174, 73); 
-      // }
       .el-menu-demo{
         padding: 0 130px;
       }
 
-      //搜索框
-      .demo-input-suffix{
-        // display: inline-block;
-        position: absolute;
-        right: 150px;
-        top: 15px;
-        width: 200px;
-        .el-input__inner{
-          height: 30px;
-        }
-        .el-input__suffix{
-          top: -5px;
-        }
+      .el-menu.el-menu--horizontal {
+        border-bottom: none; 
       }
+
 
     }
     .login{
@@ -342,7 +266,7 @@
       top: 20px;
       a{
         display: block;
-        background: url('../assets/picture/github.png') no-repeat;
+        background: url('../../assets/picture/github.png') no-repeat;
         background-size: cover;
         width: 30px;
         height: 30px;
@@ -354,6 +278,7 @@
 
     #content{
       flex-grow: 1;
+      padding-top: 80px;
     }
   }
   .el-icon-arrow-down {

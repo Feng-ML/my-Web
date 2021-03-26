@@ -9,8 +9,8 @@
 
 <script type="text/javascript">
 
- import dna from '../components/dna';
- import bee from '../components/bee';
+ import dna from './dna';
+ import bee from './bee';
  import $ from 'jquery'
 
  

@@ -20,7 +20,6 @@ export default {
 <style lang='less'>
     .charts{
         // min-height: calc(100vh - 80px);
-        padding-top: 50px;
         height: calc(100vh - 130px);
     }
 

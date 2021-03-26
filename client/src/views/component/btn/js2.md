@@ -1,4 +1,4 @@
-```vue
+```js
 methods:{
     mousemove(e){
         const boundingClientRect = this.$refs.btn2.getBoundingClientRect()

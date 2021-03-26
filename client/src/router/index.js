@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import home from "../views/Home.vue";
+import home from "../views/Home/Home.vue";
 
 Vue.use(VueRouter)
 
@@ -43,7 +43,7 @@ const routes = [
       {
         path: 'animation',
         name: 'animation',
-        component: ()=> import('../views/animation.vue'),
+        component: ()=> import('../views/animation/index.vue'),
       },
       {
         path: 'charts',
@@ -63,6 +63,11 @@ const routes = [
             path: '/home/charts/fundFlow',
             name: 'fundFlow',
             component: ()=> import('../views/charts/fundFlow.vue')
+          },
+          {
+            path: '/home/charts/COVID-19',
+            name: 'COVID-19',
+            component: ()=> import('../views/charts/COVID-19.vue')
           }
         ]
       },

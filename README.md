@@ -1,7 +1,8 @@
 ## 个人网站
 
-在根目录与client文件下安装依赖：
+安装依赖：
 > npm i
+> npm run client-install
 
 本地开发：
 > npm run dev

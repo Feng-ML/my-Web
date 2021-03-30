@@ -10,13 +10,31 @@
 </template>
 
 <script>
+ import $ from 'jquery'
 
 export default {
     name: 'bee',
+    data(){
+        return {
+            beeTime: null
+        }
+    },
+    
     mounted(){
 
-        
-    }
+        //bee随机位置定时器
+        this.beeTime = setInterval(()=>{
+            let top = Math.random()*70+10
+            let left = Math.random()*70+10
+            $('.oneBee')[0].style.top = top + '%'
+            $('.oneBee')[0].style.left = left + '%'
+        },2000)
+
+    },
+
+    beforeDestroy(){
+        clearInterval(this.beeTime)
+    },
     
 }
 </script>
@@ -38,7 +56,7 @@ export default {
     .bee{
         position: relative;
         height: 100%;
-        width: 300px;
+        width: 100%;
         .oneBee{
             position: absolute;
             // transform: translate(35%,545%);

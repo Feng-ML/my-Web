@@ -2,11 +2,21 @@
     <div class="COVID-19">
         
         <div class="column">
+
             <div class="module">
                 <div id="module1"></div>
             </div>
+
             <div class="module">
-                <div id="module2"></div>
+                <div id="module2" @mousewheel="onScoll">
+                    <div class="title">疫情情况</div>
+                    <div class="list-title"><div class="gray">地区</div><div class="yellow">现有</div><div class="red">累计</div><div class="green">治愈</div><div class="gray">死亡</div></div>
+                    <div class="list">
+                        <div v-for="(item,index) in provinceData" :key="index" class="list-item">
+                            <div>{{item.name}}</div><div>{{item.total.nowConfirm}}</div><div>{{item.total.confirm}}</div><div>{{item.total.heal}}</div><div>{{item.total.dead}}</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -16,16 +26,16 @@
         <div class="middle">
             <div class="top">
                 <div class="top-item">
-                    <div class="title">累计确诊</div><div class="num" style="color:red;">{{chinaTotal.confirm.toLocaleString()}}</div><div class="add">较上日<p style="color:red;">+{{chinaAdd.confirm}}</p></div>
+                    <div class="title">累计确诊</div><div class="num red">{{chinaTotal.confirm.toLocaleString()}}</div><div class="add">较上日<p class="red">+{{chinaAdd.confirm}}</p></div>
                 </div>
                 <div class="top-item">
-                    <div class="title">累计治愈</div><div class="num" style="color:#98e74a;">{{chinaTotal.heal.toLocaleString()}}</div><div class="add">较上日<p style="color:#98e74a;">+{{chinaAdd.heal}}</p></div>
+                    <div class="title">累计治愈</div><div class="num green">{{chinaTotal.heal.toLocaleString()}}</div><div class="add">较上日<p class="green">+{{chinaAdd.heal}}</p></div>
                 </div>
                 <div class="top-item">
-                    <div class="title">累计死亡</div><div class="num" style="color:#949ca3;">{{chinaTotal.dead.toLocaleString()}}</div><div class="add">较上日<p style="color:#949ca3;">+{{chinaAdd.dead}}</p></div>
+                    <div class="title">累计死亡</div><div class="num gray">{{chinaTotal.dead.toLocaleString()}}</div><div class="add">较上日<p class="gray">+{{chinaAdd.dead}}</p></div>
                 </div>
                 <div class="top-item">
-                    <div class="title">境外输入</div><div class="num" style="color:#ffeaa6;">{{chinaTotal.importedCase.toLocaleString()}}</div><div class="add">较上日<p style="color:#ffeaa6;">+{{chinaAdd.importedCase}}</p></div>
+                    <div class="title">境外输入</div><div class="num yellow">{{chinaTotal.importedCase.toLocaleString()}}</div><div class="add">较上日<p class="yellow">+{{chinaAdd.importedCase}}</p></div>
                 </div>
             </div>
             <div class="earth">
@@ -39,7 +49,13 @@
 
 
         <div class="column">
-
+            <div class="date">最后更新时间：{{chinaData.lastUpdateTime}}</div>
+            <div class="module right">
+                <div id="module3"></div>
+            </div>
+            <div class="module right">
+                <div id="module4"></div>
+            </div>
         </div>
 
 
@@ -55,10 +71,26 @@ export default {
 
     data(){
         return {
+            // 所有数据
             chinaData:{},
+            // 近60天历史数据
             historyData: {},
-            chinaTotal: {},
-            chinaAdd:{}
+            // 国内累计
+            chinaTotal: {
+                "confirm": 0,
+                "heal": 0,
+                "dead": 0,
+                "importedCase": 0,
+            },
+            // 省份信息
+            provinceData: [],
+            // 国内新增
+            chinaAdd:{},
+            // 省份新增
+            addList:[],
+
+            scrollTimer: null,
+            scrollTimeout: null
         }
     },
     async mounted(){
@@ -67,12 +99,19 @@ export default {
 
         this.mapChart()
         this.module1()
+        this.module2()
+        this.module3()
+        this.module4()
 
         // 大小自适应
         window.onresize = ()=>{
             let myChart = echarts.getInstanceByDom(document.getElementById('map'))
             myChart.resize()
         }
+    },
+    beforeDestroy(){
+        clearInterval(this.scrollTimer)
+        clearTimeout(this.scrollTimeout)
     },
     methods:{
         // 获取国内数据
@@ -85,6 +124,7 @@ export default {
                     this.chinaData = JSON.parse(res.data.data) 
                     this.chinaTotal = this.chinaData.chinaTotal
                     this.chinaAdd = this.chinaData.chinaAdd
+                    this.provinceData = this.chinaData.areaTree[0].children
                     console.log(this.chinaData);
 
                 }
@@ -120,15 +160,23 @@ export default {
 
         // 地图chart数据处理
         mapChart(){
-            let list = this.chinaData.areaTree[0].children
-            let totalList = []
+            let list = this.provinceData
+            let totalList = [],
+                addList = [];
 
             list.map(item=>{
                 totalList.push({
                     name: item.name,
                     value: [item.total.confirm,item.total.heal,item.total.dead]
                 })
+
+                // 保存新增省份信息
+                if (item.today.confirm!=0 || item.today.wzz_add!=0) {
+                    addList.push(item)
+                }
             })
+
+            this.addList = addList
             
             // 地图数据
             var chartData = {
@@ -244,7 +292,7 @@ export default {
 
             let option = {
                 title: {
-                    text: '国内新增案例',
+                    text: '国内历史新增',
                     textStyle:{
                         color: '#fff'
                     }
@@ -325,8 +373,209 @@ export default {
             // 地图初始化渲染
             var myChart = echarts.init(document.getElementById('module1'));
             myChart.setOption(option)
+        },
+
+        module2(){
+            let content = document.querySelector(".list")
+
+            let num = content.scrollTop
+            this.scrollTimer = setInterval(() => {
+                
+                // 滚到底部切回顶部
+                if(num >= content.scrollHeight) {
+                    num = -content.offsetHeight
+                    content.scrollTop = 0;
+                }else{
+                    // 否则一直滚动
+                    num++
+                    content.scrollTop = num;
+                }
+
+            },30);
+        },
+        // 滚轮监听
+        onScoll(){
+            // 停止滚动
+            if (this.scrollTimer) {
+                clearInterval(this.scrollTimer)
+                this.scrollTimer = null
+            }
+
+            // 防抖
+            if (this.scrollTimeout) {
+                clearTimeout(this.scrollTimeout) 
+            }
+            // 重新滚动
+            this.scrollTimeout = setTimeout(this.module2,2500)
+
+        },
+
+        module3(){
+            let list = this.addList,
+                x = [],
+                confirm = [],
+                wzz_add = [];
+
+            list.map(item=>{
+                // x轴
+                x.push(item.name)
+                // 新增确诊
+                confirm.push(item.today.confirm)
+                // 新增无症状
+                wzz_add.push(item.today.wzz_add)
+            })
+
+            let option = {
+                title: {
+                    text: '昨日新增',
+                    textStyle:{
+                        color: '#fff'
+                    }
+                },
+                textStyle:{
+                    color: '#fff'
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: ['新增确诊', '新增无症状'],
+                    right: '20',
+                    textStyle:{
+                        color: '#fff'
+                    },
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: true,
+                    data: x,
+                    axisLine:{
+                        lineStyle:{
+                            color: '#fff'
+                        }
+                    }
+                },
+                yAxis: {
+                    type: 'value',
+                    splitLine:{
+                        show: false
+                    },
+                    axisLine:{
+                        lineStyle:{
+                            color: '#fff'
+                        }
+                    }
+                },
+                series: [
+                    {
+                        name: '新增确诊',
+                        type: 'bar',
+                        stack: '总量',
+                        data: confirm
+                    },
+                    {
+                        name: '新增无症状',
+                        type: 'bar',
+                        stack: '总量',
+                        data: wzz_add
+                    }
+                ]
+            };
+
+            // 地图初始化渲染
+            var myChart = echarts.init(document.getElementById('module3'));
+            myChart.setOption(option)
+        },
+
+        module4(){
+            let list = this.historyData.chinaDayList,
+                x = [],
+                nowConfirm = [],
+                nowSevere = [];
+
+            list.map(item=>{
+                x.push(item.date)
+                nowConfirm.push(item.nowConfirm)
+                nowSevere.push(item.nowSevere)
+            })
+
+            let option = {
+                title: {
+                    text: '现有确诊趋势',
+                    textStyle:{
+                        color: '#fff'
+                    }
+                },
+                textStyle:{
+                    color: '#fff'
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: ['现有确诊', '现有重症'],
+                    right: '20',
+                    textStyle:{
+                        color: '#fff'
+                    },
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: x,
+                    axisLine:{
+                        lineStyle:{
+                            color: '#fff'
+                        }
+                    }
+                },
+                yAxis: {
+                    type: 'value',
+                    splitLine:{
+                        show: false
+                    },
+                    axisLine:{
+                        lineStyle:{
+                            color: '#fff'
+                        }
+                    }
+                },
+                series: [
+                    {
+                        name: '现有确诊',
+                        type: 'line',
+                        // stack: '总量',
+                        data: nowConfirm
+                    },
+                    {
+                        name: '现有重症',
+                        type: 'line',
+                        // stack: '总量',
+                        data: nowSevere
+                    }
+                ]
+            };
+
+            let content = document.getElementById("module4")
+            // 地图初始化渲染
+            var myChart = echarts.init(content);
+            myChart.setOption(option)
+
         }
-    }
+    },
+
 }
 </script>
 
@@ -346,6 +595,13 @@ export default {
         display: flex;
         flex-direction: column;
         justify-content: space-around;
+
+        .date{
+            position: absolute;
+            top: 80px;
+            right: 30px;
+            color: white;
+        }
     }
     .middle{
         width: 50%;
@@ -435,19 +691,75 @@ export default {
 
     .module{
         width: 90%;
-        height: 400px;
+        height: 350px;
         background: url('../../assets/picture/charts/dataBg.png') no-repeat;
         background-size: 100% 100%;
         overflow: hidden;
         margin-left: 10%;
 
-        #module1{
+        #module1,#module2,#module3,#module4{
             width: 80%;
             height: 80%;
             margin: auto;
             margin-top: 10%;
             // color: #fff;
         }
+
+        #module2{
+            height: 70%;
+            width: 85%;
+            // text-align: center;
+
+            .title{
+                color: white;
+                font-size: 20px;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+            .list{
+                height: 80%;
+                overflow: auto;
+                &::-webkit-scrollbar {
+                    width: 0;
+                }
+            }
+            .list-title{
+                display: flex;
+                margin-bottom: 5px;
+                color: white;
+                div{
+                    flex: 1;
+                }
+            }
+            .list-item{
+                display: flex;
+                color: white;
+                margin-bottom: 5px;
+                div{
+                    flex: 1;
+                }
+            }
+        }
+
+        
+    }
+
+    .right{
+        margin-left: 0;
+        margin-right: 10%;
+    }
+
+    .red{
+        color: red;
+    }
+    .green{
+        color: #98e74a;
+    }
+    .gray{
+        color: #949ca3;
+    }
+    .yellow{
+        color: #ffeaa6;
     }
 
 }

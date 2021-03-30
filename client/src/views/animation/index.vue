@@ -1,9 +1,9 @@
 <template>
   <div class="animation">
-      <ul>
-          <li><dna></dna></li>
-          <li><bee></bee></li>
-      </ul>     
+
+    <el-card class="card"><dna></dna></el-card>
+    <el-card class="card"><bee></bee></el-card>
+
   </div>
 </template>
 
@@ -11,7 +11,6 @@
 
  import dna from './dna';
  import bee from './bee';
- import $ from 'jquery'
 
  
 export default {
@@ -21,41 +20,29 @@ export default {
     },
     data(){
         return {
-            beeTime: 0
         }
     },
-    mounted(){
-        
-    },
     
-    beforeRouteEnter(to,from,next){
-        next(vm=>{
-            //bee随机位置定时器
-            vm.beeTime = setInterval(()=>{
-                let top = Math.random()*70+10
-                let left = Math.random()*70+10
-                $('.oneBee')[0].style.top = top + '%'
-                $('.oneBee')[0].style.left = left + '%'
-            },2000)
-        })      
-    },
-    beforeRouteLeave(to,from,next){
-        // 清除随机位置定时器
-        clearInterval(this.beeTime)
-        next()
+    mounted(){
+
     }
 }
 </script>
 
 <style lang='less'>
     .animation{
-        ul{
-            width: 100%;
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            padding-top: 35px;
-            
+
+        width: 80%;
+        margin: auto;
+        display: flex;
+        justify-content: space-around;
+        
+        padding-top: 35px;
+
+        .el-card__body{
+            height: 300px;
+            width: 250px;
         }
+
     }
 </style>

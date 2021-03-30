@@ -37,10 +37,13 @@
 <script>
 import $ from 'jquery'
 
-
-
 export default {
     name: 'dna',
+    data(){
+        return{
+            timer: null
+        }
+    },
     mounted(){
 
         //延时效果
@@ -55,7 +58,7 @@ export default {
         
         //定时随机颜色
         let colorNum = [0,1,2,3,4,5,6,7,8,9,"a","b","c","d","e","f"];
-        setInterval(()=>{
+        this.timer = setInterval(()=>{
             let color1 = "";     
             for (let i = 0; i < 6; i++) {
                 let Num = Math.floor(Math.random()*16);
@@ -73,9 +76,10 @@ export default {
         },2000)
 
     },
-    methods:{
 
-    }
+    beforeDestroy(){
+        clearInterval(this.timer)
+    },
 }
 </script>
 
@@ -140,8 +144,8 @@ export default {
     }
     #dna{
         position: relative;
-        width: 300px;
-        height: 300px;
+        width: 100%;
+        height: 100%;
         // background-color: rgb(175, 109, 22);
         
         // 单条dna样式

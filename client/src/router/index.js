@@ -10,10 +10,11 @@ const routes = [
     path: '/',
     redirect: '/home'
   },
-  // {
-  //   path: '*',
-  //   redirect: '/home'
-  // },
+  {
+    path: '*',
+    name: 'noFound',
+    component: ()=> import('../views/404.vue')
+  },
   {
     path: '/home',
     name: 'home',
@@ -52,17 +53,12 @@ const routes = [
         children: [
           {
             path: '/',
-            redirect: '/home/charts/fundUse'
+            redirect: '/home/charts/fundCharts'
           },
           {
-            path: '/home/charts/fundUse',
-            name: 'fundUse',
-            component: ()=> import('../views/charts/fundUse.vue')
-          },
-          {
-            path: '/home/charts/fundFlow',
-            name: 'fundFlow',
-            component: ()=> import('../views/charts/fundFlow.vue')
+            path: '/home/charts/fundCharts',
+            name: 'fundCharts',
+            component: ()=> import('../views/charts/fundCharts.vue')
           },
           {
             path: '/home/charts/COVID-19',
@@ -93,5 +89,10 @@ const routes = [
 const router = new VueRouter({
   routes
 })
+
+// router.beforeEach((to, from, next) => {
+//   console.log(to);
+//   next()
+// })
 
 export default router

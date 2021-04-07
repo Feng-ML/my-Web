@@ -18,7 +18,7 @@
           <!-- 有子菜单 -->
           <slot v-if="item.children">
             <el-submenu :index="index+''">
-              <template slot="title">{{item.name}}</template>
+              <template slot="title"><i :class="'iconfont '+item.icon"></i> {{item.name}}</template>
               <!-- 循环子菜单 -->
               <el-menu-item 
                 v-for="(item2,index2) in item.children"
@@ -26,7 +26,8 @@
                 :index="index+'-'+index2"
                 @click="toPath(item2.path,index+'-'+index2)"
               > 
-                  {{item2.name}}
+                <i :class="'iconfont '+item2.icon"></i>
+                {{item2.name}}
               </el-menu-item>
             </el-submenu>
           </slot>
@@ -34,6 +35,7 @@
           <!-- 无子菜单 -->
           <slot v-else>
             <el-menu-item :index="index+''" @click="toPath(item.path,index)">
+              <i :class="'iconfont '+item.icon"></i>
               {{item.name}}
             </el-menu-item>
           </slot>
@@ -76,6 +78,10 @@
       <router-view/>
     </div>
 
+
+    <div id="footer">
+      <img src="@/assets/picture/falv.png"> <a href="https://beian.miit.gov.cn" target="_blank">粤ICP备19146979号</a>
+    </div>
   </div>
 </template>
 
@@ -221,7 +227,7 @@
       z-index: 10;
       width: 100%;
       text-align: center;
-      // background-color: rgb(32, 32, 32);
+      min-width: 1000px;
 
       .el-menu-demo{
         padding: 0 130px;
@@ -285,4 +291,21 @@
       font-size: 12px;
   }
 
+
+  #footer{
+    background-color: @bgColor;
+    color: #fff;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    a{
+      margin-left: 10px;
+      color: #fff;
+      text-decoration: none;
+
+      &:hover{
+        color: @textColor;
+      }
+    }
+  }
 </style>

@@ -234,7 +234,7 @@
       width: 50%;
     }
     .el-select .el-input{
-      width: 80px;
+      width: 90px;
     }
     .el-button{
       position: relative;

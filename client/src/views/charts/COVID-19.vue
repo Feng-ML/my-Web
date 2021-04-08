@@ -3,13 +3,12 @@
         
         <div class="column">
 
-            <div class="module">
+            <dv-border-box-10 class="module">
                 <div id="module1"></div>
-            </div>
+            </dv-border-box-10>
 
-            <div class="module">
+            <dv-border-box-11 title='疫情情况' class="module">
                 <div id="module2" @mousewheel="onScoll">
-                    <div class="title">疫情情况</div>
                     <div class="list-title"><div class="gray">地区</div><div class="yellow">现有</div><div class="red">累计</div><div class="green">治愈</div><div class="gray">死亡</div></div>
                     <div class="list">
                         <div v-for="(item,index) in provinceData" :key="index" class="list-item">
@@ -17,14 +16,14 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </dv-border-box-11>
         </div>
 
 
 
 
         <div class="middle">
-            <div class="top">
+            <dv-border-box-1 class="top">
                 <div class="top-item">
                     <div class="title">累计确诊</div><div class="num red">{{chinaTotal.confirm.toLocaleString()}}</div><div class="add">较上日<p class="red">+{{chinaAdd.confirm}}</p></div>
                 </div>
@@ -37,7 +36,7 @@
                 <div class="top-item">
                     <div class="title">境外输入</div><div class="num yellow">{{chinaTotal.importedCase.toLocaleString()}}</div><div class="add">较上日<p class="yellow">+{{chinaAdd.importedCase}}</p></div>
                 </div>
-            </div>
+            </dv-border-box-1>
             <div class="earth">
                 <img src="../../assets/picture/charts/lbx.png" class="line">
                 <img src="../../assets/picture/charts/jt.png" class="line2">
@@ -50,12 +49,12 @@
 
         <div class="column">
             <div class="date">最后更新时间：{{chinaData.lastUpdateTime}}</div>
-            <div class="module right">
+            <dv-border-box-10 class="module right">
                 <div id="module3"></div>
-            </div>
-            <div class="module right">
+            </dv-border-box-10>
+            <dv-border-box-10 class="module right">
                 <div id="module4"></div>
-            </div>
+            </dv-border-box-10>
         </div>
 
 
@@ -609,10 +608,10 @@ export default {
 
         .top{
             width: 90%;
-            height: 100px;
+            height: 150px;
             margin: auto;
-            background: url('../../assets/picture/charts/center02.png') no-repeat;
-            background-size: 100% 100%;
+        }
+        .border-box-content{
             display: flex;
 
             .top-item{
@@ -650,7 +649,7 @@ export default {
             position: absolute;
             left: 0;
             right: 0;
-            top: 0;
+            top: 25%;
             bottom: 0;
             margin: auto;
             background: url('../../assets/picture/charts/map.png');
@@ -678,10 +677,10 @@ export default {
         }
 
         #map{
-            width: 50%;
-            height: 50%;
+            width: 65%;
+            height: 65%;
             position: absolute;
-            top: 0;
+            top: 25%;
             bottom: 0;
             left: 0;
             right: 0;
@@ -692,8 +691,6 @@ export default {
     .module{
         width: 90%;
         height: 350px;
-        background: url('../../assets/picture/charts/dataBg.png') no-repeat;
-        background-size: 100% 100%;
         overflow: hidden;
         margin-left: 10%;
 
@@ -709,13 +706,8 @@ export default {
             height: 70%;
             width: 85%;
             // text-align: center;
+            margin-top: 20%;
 
-            .title{
-                color: white;
-                font-size: 20px;
-                font-weight: bold;
-                margin-bottom: 10px;
-            }
             .list{
                 height: 80%;
                 overflow: auto;

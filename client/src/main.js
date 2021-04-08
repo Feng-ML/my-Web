@@ -7,12 +7,15 @@ import 'element-ui/lib/theme-chalk/index.css'
 import "@/assets/css/App.less"
 import "@/assets/iconfont/iconfont.css"
 import axios from './http.js'
+//数据可视化
+import dataV from '@jiaminghi/data-view'
 
 
 import $ from 'jquery'
 Vue.prototype.$ = $  
 
-Vue.use(ElementUI);
+Vue.use(ElementUI)
+   .use(dataV);
 
 
 Vue.prototype.$axios = axios;

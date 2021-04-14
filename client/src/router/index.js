@@ -59,11 +59,6 @@ const routes = [
             path: '/home/charts/fundCharts',
             name: 'fundCharts',
             component: ()=> import('../views/charts/fundCharts.vue')
-          },
-          {
-            path: '/home/charts/COVID-19',
-            name: 'COVID-19',
-            component: ()=> import('../views/charts/COVID-19.vue')
           }
         ]
       },
@@ -83,6 +78,12 @@ const routes = [
     path: '/register',
     name: 'register',
     component: ()=> import('../views/register.vue'),
+  },
+  {
+    //疫情数据可视化
+    path: '/home/charts/COVID-19',
+    name: 'COVID-19',
+    component: ()=> import('../views/charts/COVID-19.vue')
   }
 ]
 

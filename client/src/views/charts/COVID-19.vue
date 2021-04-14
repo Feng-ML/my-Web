@@ -184,9 +184,10 @@ export default {
                     text: '全国疫情情况',
                     x: 'center',
                     textStyle: {
-                        color: '#fff'
+                        color: '#fff',
+                        fontSize: 35
                     },
-                    top: 85
+                    top: 10
                 },
                 // 散点弹窗
                 tooltip: {
@@ -590,21 +591,20 @@ export default {
 
     .column{
         width: 25%;
-        padding-top: 80px;
         display: flex;
         flex-direction: column;
         justify-content: space-around;
 
         .date{
             position: absolute;
-            top: 80px;
+            top: 20px;
             right: 30px;
             color: white;
         }
     }
     .middle{
         width: 50%;
-        padding-top: 80px;
+        padding-top: 60px;
 
         .top{
             width: 90%;

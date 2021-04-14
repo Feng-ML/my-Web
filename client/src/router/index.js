@@ -84,6 +84,12 @@ const routes = [
     path: '/home/charts/COVID-19',
     name: 'COVID-19',
     component: ()=> import('../views/charts/COVID-19.vue')
+  },
+  {
+    //墨斗建店数据可视化
+    path: '/home/charts/mode',
+    name: 'mode',
+    component: ()=> import('../views/charts/mode/mode.vue')
   }
 ]
 

@@ -24,6 +24,11 @@ const menu = [
           name: '疫情实时',
           path: '/home/charts/COVID-19',
           icon: 'icon-yiqing'
+        },
+        {
+          name: '墨斗建店平台',
+          path: '/home/charts/mode',
+          icon: 'icon-dianpu'
         }
       ]
     },

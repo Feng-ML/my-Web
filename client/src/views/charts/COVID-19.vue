@@ -1,5 +1,6 @@
 <template>
     <div class="COVID-19">
+        <div class="bigTitle" @click="toHome">全国疫情情况</div>
         
         <div class="column">
 
@@ -180,15 +181,15 @@ export default {
             // 地图数据
             var chartData = {
                 // 标题
-                title: {
-                    text: '全国疫情情况',
-                    x: 'center',
-                    textStyle: {
-                        color: '#fff',
-                        fontSize: 35
-                    },
-                    top: 10
-                },
+                // title: {
+                //     text: '全国疫情情况',
+                //     x: 'center',
+                //     textStyle: {
+                //         color: '#fff',
+                //         fontSize: 35
+                //     },
+                //     top: 10
+                // },
                 // 散点弹窗
                 tooltip: {
                     trigger: 'item',
@@ -573,6 +574,12 @@ export default {
             var myChart = echarts.init(content);
             myChart.setOption(option)
 
+        },
+
+        toHome(){
+            this.$router.push({
+                path: '/'
+            })
         }
     },
 
@@ -586,11 +593,24 @@ export default {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    background: url('../../assets/picture/charts/bg.png') no-repeat center;
+    background: url('../../assets/picture/charts/bg.png') no-repeat center/100% 100%;
     display: flex;
+    align-items: flex-end;
 
+    .bigTitle{
+        position: absolute;
+        top: 0;
+        line-height: 60px;
+        text-align: center;
+        width: 100%;
+        color: white;
+        font-size: 35px;
+        font-weight: bold;
+        letter-spacing: 20px;
+    }
     .column{
         width: 25%;
+        height: 90%;
         display: flex;
         flex-direction: column;
         justify-content: space-around;
@@ -604,7 +624,8 @@ export default {
     }
     .middle{
         width: 50%;
-        padding-top: 60px;
+        height: 90%;
+        padding-top: 100px;
 
         .top{
             width: 90%;
